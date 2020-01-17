@@ -1,0 +1,12 @@
+# npm
+node_modules
+package-lock.json
+
+# example output
+example/output
+
+# dist
+dist
+
+# tmp
+**/.DS_Store

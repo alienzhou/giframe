@@ -1,0 +1,38 @@
+{
+  "name": "giframe",
+  "version": "0.1.0",
+  "description": "extract the first frame in GIF without reading whole bytes, using stream-like decoder",
+  "author": "alienzhou <alienzhou16@163.com>",
+  "license": "MIT",
+  "keywords": [
+    "gif",
+    "decode",
+    "frame",
+    "gif89a",
+    "gif87a",
+    "extract",
+    "stream-like",
+    "progressive"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alienzhou/giframe"
+  },
+  "scripts": {
+    "example:node:limit": "ts-node example/nodejs/run-limit $*",
+    "example:node:stream": "ts-node example/nodejs/run-stream $*",
+    "build:node": "tsc"
+  },
+  "main": "dist/node/giframe.js",
+  "dependencies": {
+    "canvas": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.1",
+    "@types/node": "^13.1.7",
+    "fs-extra": "^8.1.0",
+    "ora": "^4.0.3",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
