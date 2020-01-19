@@ -1,5 +1,7 @@
 # giframe
 
+> WIP
+
 Giframe can extract the first frame in GIFs without reading whole bytes in both browsers and NodeJS.
 
 It may be used for accelerating GIFs loading experiences and providing a progressive GIF displaying.
