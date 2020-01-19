@@ -1,6 +1,15 @@
-import {BufferArray} from '../types';
+import { BufferArray, OutputLZWMsg } from '../types';
 
-function LZW(buf: BufferArray, p: number, output: Uint8Array, outputLen: number) {
+export interface IOutputLZW {
+    output: Uint8Array;
+    ok: boolean;
+    msg: OutputLZWMsg;
+}
+
+export function unpackLZW(buf: BufferArray, p: number, outputLen: number): IOutputLZW {
+    let msg: OutputLZWMsg;
+    let ok: boolean = true;
+    let output = new Uint8Array(outputLen);
     let minCodeSize: number = buf[p++];
 
     let clearCode: number = 1 << minCodeSize;
@@ -66,8 +75,9 @@ function LZW(buf: BufferArray, p: number, output: Uint8Array, outputLen: number)
 
         let op_end: number = op + chaseLen + (chaseCode !== code ? 1 : 0);
         if (op_end > outputLen) {
-            console.log('Warning, gif stream longer than expected.');
-            return;
+            ok = false;
+            msg = OutputLZWMsg.LONGER;
+            return { output, ok, msg};
         }
 
         output[op++] = k;
@@ -98,11 +108,9 @@ function LZW(buf: BufferArray, p: number, output: Uint8Array, outputLen: number)
     }
 
     if (op !== outputLen) {
-        console.log('Warning, gif stream shorter than expected.');
+        ok = false;
+        msg = OutputLZWMsg.SHORTER;
     }
 
-    return output;
+    return { output, ok, msg};
 }
-
-
-export default LZW;

@@ -13,11 +13,7 @@ function createArrayProxy(buf: BufferArray) {
                 }
             }
             if (prop >= target.length) {
-                throw new Error(`index ${prop} is out of range`);
-            }
-            if (target.length <= prop) {
-                console.log('please wait');
-                throw new Error('out of range');
+                throw RangeError(`index ${prop} is out of range`);
             }
             return target[prop];
         }

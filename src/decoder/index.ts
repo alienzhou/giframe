@@ -4,7 +4,7 @@
  */
 
 import {IFrameInfo, BufferArray} from '../types';
-import LZW from './lzw';
+import {unpackLZW} from './lzw';
 
 class Decoder {
     private pos: number;
@@ -72,7 +72,7 @@ class Decoder {
         this.pos = p;
     }
 
-    decodeMetaAndFrameInfo(buf: BufferArray, frameIdx: number) {
+    decodeMetaAndFrameInfo(buf: BufferArray, frameIdx: number): boolean {
         let p: number = this.pos;
         this.lastCorrectPos = p;
         try {
@@ -220,11 +220,11 @@ class Decoder {
         }
     }
 
-    getFramesNum() {
+    getFramesNum(): number {
         return this.frames.length;
     }
 
-    getFrameInfo(idx: number) {
+    getFrameInfo(idx: number): IFrameInfo {
         const frames = this.frames;
         if (idx < 0 || idx >= frames.length) {
             throw new Error('Frame index out of range.');
@@ -232,14 +232,17 @@ class Decoder {
         return frames[idx];
     }
 
-    decodeFrameRGBA(idx: number, buf: BufferArray) {
+    decodeFrameRGBA(idx: number, buf: BufferArray): Array<number> {
         const pixels: Array<number> = [];
         try {
 
             let frame: IFrameInfo = this.getFrameInfo(idx);
             let numPixels = frame.width * frame.height;
-            let indexStream = new Uint8Array(numPixels);
-            LZW(buf, frame.dataOffset, indexStream, numPixels);
+            let unpackInfo = unpackLZW(buf, frame.dataOffset, numPixels);
+            if (!unpackInfo.ok) {
+                throw Error(unpackInfo.msg)
+            }
+            let indexStream = unpackInfo.output;
 
             let paletteOffset: number = frame.paletteOffset;
             let trans: number = frame.transparentIndex;

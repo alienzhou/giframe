@@ -15,3 +15,8 @@ export interface IFrameInfo {
 }
 
 export type BufferArray = Buffer;
+
+export enum OutputLZWMsg {
+    LONGER = 'Warning, gif stream longer than expected.',
+    SHORTER = 'Warning, gif stream shorter than expected.',
+}

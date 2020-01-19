@@ -14,6 +14,11 @@ enum Stage {
 };
 
 type EmitData = Array<number>|string|IFrameInfo;
+interface IDeferred<Ret> {
+    promise: Promise<Ret>;
+    resolve: (data: Ret) => unknown;
+    reject: Function;
+}
 
 class GIFrame extends EventEmitter<EmitData> {
     static event = Stage;
@@ -23,13 +28,21 @@ class GIFrame extends EventEmitter<EmitData> {
     private frameIdx: number = 0;
     private buf: BufferArray;
     private base64: string = null;
+    private deferred: IDeferred<string>;
 
     constructor(frameIdx: number = 0) {
         super();
         this.frameIdx = frameIdx;
+        let resolve: (data: string) => unknown;
+        let reject: Function;
+        const promise: Promise<string> = new Promise((r, j) => {
+            resolve = r;
+            reject = j;
+        })
+        this.deferred = { promise, resolve, reject };
     }
 
-    private concat(buf: BufferArray) {
+    private concat(buf: BufferArray): BufferArray {
         // TODO: browser
         if (this.buf) {
             buf = Buffer.concat([this.buf, buf]);
@@ -46,12 +59,12 @@ class GIFrame extends EventEmitter<EmitData> {
         return this.buf.length;
     }
 
-    feed(appendedBuf: BufferArray) {
+    feed(appendedBuf: BufferArray): void {
         const buf: BufferArray = this.concat(appendedBuf);
         this.update(buf);
     }
 
-    update(buf: BufferArray) {
+    update(buf: BufferArray): void {
         // already done, never update anymore
         if (Stage.DONE === this.stage) {
             this.switchStage(Stage.ALREADY, this.base64);
@@ -67,6 +80,10 @@ class GIFrame extends EventEmitter<EmitData> {
         if (Stage.NONE === this.stage) {
             this.decoder = new Decoder(buf);
             this.switchStage(Stage.INIT);
+
+            // NOTE: does it necessary to handle the case that init stage incomplete?
+            // try to enter next stage
+            this.update(buf);
             return;
         }
         if (Stage.INIT === this.stage) {
@@ -74,6 +91,8 @@ class GIFrame extends EventEmitter<EmitData> {
             const finished = decoder.decodeMetaAndFrameInfo(buf, this.frameIdx);
             if (finished) {
                 this.switchStage(Stage.META, decoder.getFrameInfo(this.frameIdx));
+                // try to enter next stage
+                this.update(buf);
             }
             return;
         }
@@ -87,11 +106,21 @@ class GIFrame extends EventEmitter<EmitData> {
                 const {width, height} = decoder.getFrameInfo(this.frameIdx);
                 this.base64 = createBase64(pixels, {width, height});
                 this.switchStage(Stage.DONE, this.base64);
+                this.deferred.resolve(this.base64);
+
+                // try to enter next stage
+                this.update(buf);
             }
             return;
         }
 
-        throw Error('unknown internal status:' + this.stage);
+        const err = Error('unknown internal status:' + this.stage);
+        this.deferred.reject(err);
+        throw err;
+    }
+
+    getBase64(): Promise<string> {
+        return this.deferred.promise;
     }
 }
 
