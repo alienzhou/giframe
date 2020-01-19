@@ -4,7 +4,7 @@
 
 Giframe can extract the first frame in GIFs without reading whole bytes in both browsers and NodeJS.
 
-[![](https://api.travis-ci.org/alienzhou/giframe.svg?branch=master)](https://travis-ci.org/alienzhou/giframe) [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+[![](https://api.travis-ci.org/alienzhou/giframe.svg?branch=master)](https://travis-ci.org/alienzhou/giframe) [![Coverage Status](https://coveralls.io/repos/github/alienzhou/giframe/badge.svg)](https://coveralls.io/github/alienzhou/giframe) [![MIT Licence](https://img.shields.io/github/license/alienzhou/giframe)](https://opensource.org/licenses/mit-license.php)
 
 It may be used for accelerating GIFs loading experiences and providing a progressive GIF displaying.
 
