@@ -10,3 +10,8 @@ dist
 
 # tmp
 **/.DS_Store
+**/tmp
+
+# test
+coverage
+.nyc_output

@@ -1,13 +1,14 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
+        "noImplicitAny": false,
         "sourceMap": false,
         "outDir": "dist/node",
         "target": "ES5",
         "esModuleInterop": true,
+        "downlevelIteration": true,
         "suppressImplicitAnyIndexErrors": true,
         "lib": [
             "DOM",
