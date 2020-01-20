@@ -21,6 +21,7 @@
   "scripts": {
     "example:node:limit": "ts-node example/nodejs/run-limit $*",
     "example:node:stream": "ts-node example/nodejs/run-stream $*",
+    "example:browser": "ts-node example/browser/app.ts",
     "build:node": "tsc",
     "build:browser": "rollup -c rollup.config.ts",
     "build": "run-s build:node build:browser",
