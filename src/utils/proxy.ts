@@ -1,8 +1,6 @@
-import {BufferArray} from '../types';
-
-function createArrayProxy(buf: BufferArray) {
+function createArrayProxy(buf: Uint8Array) {
     let proxy = new Proxy(buf, {
-        get(target: BufferArray, prop) {
+        get(target: Uint8Array, prop) {
             if (typeof prop === 'symbol') {
                 return target[prop];
             }

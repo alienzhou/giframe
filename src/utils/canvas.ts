@@ -1,11 +1,5 @@
-import {createCanvas, Canvas} from 'canvas';
-
-interface ICreateBase64Opts {
-    width: number;
-    height: number;
-    usePNG?: boolean;
-    quality?: number;
-}
+import { createCanvas, Canvas } from 'canvas';
+import { ICreateBase64Opts } from '../types';
 
 enum MineType {
     JPG = 'image/jpeg',

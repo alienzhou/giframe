@@ -1,4 +1,4 @@
-import { BufferArray, OutputLZWMsg } from '../types';
+import { OutputLZWMsg } from '../types';
 
 export interface IOutputLZW {
     output: Uint8Array;
@@ -6,7 +6,7 @@ export interface IOutputLZW {
     msg: OutputLZWMsg;
 }
 
-export function unpackLZW(buf: BufferArray, p: number, outputLen: number): IOutputLZW {
+export function unpackLZW(buf: Uint8Array, p: number, outputLen: number): IOutputLZW {
     let msg: OutputLZWMsg;
     let ok: boolean = true;
     let output = new Uint8Array(outputLen);

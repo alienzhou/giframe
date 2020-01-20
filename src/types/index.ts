@@ -14,9 +14,14 @@ export interface IFrameInfo {
     disposal: number;
 }
 
-export type BufferArray = Buffer;
-
 export enum OutputLZWMsg {
     LONGER = 'Warning, gif stream longer than expected.',
     SHORTER = 'Warning, gif stream shorter than expected.',
+}
+
+export interface ICreateBase64Opts {
+    width: number;
+    height: number;
+    usePNG?: boolean;
+    quality?: number;
 }

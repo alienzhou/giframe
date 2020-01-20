@@ -3,8 +3,8 @@
  * folk from omggif
  */
 
-import {IFrameInfo, BufferArray} from '../types';
-import {unpackLZW} from './lzw';
+import { IFrameInfo } from '../types';
+import { unpackLZW } from './lzw';
 
 class Decoder {
     private pos: number;
@@ -20,11 +20,11 @@ class Decoder {
     private frames: Array<IFrameInfo>;
     private lastCorrectPos: number;
 
-    constructor(buf: BufferArray) {
+    constructor(buf: Uint8Array) {
         this.init(buf);
     }
 
-    private init(buf: BufferArray) {
+    private init(buf: Uint8Array) {
         this.pos = 0;
         let p = this.pos;
 
@@ -72,7 +72,7 @@ class Decoder {
         this.pos = p;
     }
 
-    decodeMetaAndFrameInfo(buf: BufferArray, frameIdx: number): boolean {
+    decodeMetaAndFrameInfo(buf: Uint8Array, frameIdx: number): boolean {
         let p: number = this.pos;
         this.lastCorrectPos = p;
         try {
@@ -232,7 +232,7 @@ class Decoder {
         return frames[idx];
     }
 
-    decodeFrameRGBA(idx: number, buf: BufferArray): Array<number> {
+    decodeFrameRGBA(idx: number, buf: Uint8Array): Array<number> {
         const pixels: Array<number> = [];
         try {
 
