@@ -24,14 +24,51 @@ This repository aims to provide a stream-like GIF decoder which can run in both 
 - It will try to extract the needed frame without reading all bytes. You can read bytes and decode at the same time. It is useful especially when using stream in I/O.
 - Running in browsers means you can display a early static frame when downloading GIF, or use the client itself to calculate.
 
+## Basic Usage
+
+Support both browsers and NodeJS,
+
+```JavaScript
+import GIFrame from 'giframe';
+const giframe = new GIFrame();
+giframe.getBase64().then(base64 => {
+    // finally get the base64 string of the first frame
+    console.log(base64);
+});
+
+// then read GIF bytes from network, local file and so on
+const source = readGIF('xxx.gif');
+// chunk need to be Uint8Array
+source.on('data', chunk => giframe.feed(chunk));
+```
+
+More complex usages can be found in `example/` directory. You can also run examples below ↓↓↓
+
 ## Example
 
-[Nodejs](https://nodejs.org/) required.
+> [Nodejs](https://nodejs.org/) required.
+
+Firstly,
 
 ```bash
+git clone git@github.com:alienzhou/giframe.git
+
 # install dependencies
 npm i
+```
 
+Run in browsers,
+
+```bash
+npm run example:browser
+
+# then it will open http://127.0.0.1:8080 (default port is 8080)
+# you will see a demo page
+```
+
+Or run in NodeJS,
+
+```bash
 # extract the first frame
 # you can change the gif filename (1.gif ~ 5.gif)
 npm run example:node:stream 1.gif
@@ -42,46 +79,13 @@ npm run example:node:limit 1.gif
 # then the first frame image will be written in example/output
 ```
 
-## Usage
-
-In NodeJS,
-
-```JavaScript
-import GIFrame from 'giframe';
-
-const giframe = new GIFrame();
-giframe.on(GIFrame.event.DONE, base64 => {
-    // create a image file in Nodejs
-    const data = base64.replace(/^data:image\/\w+base64,/, '');
-    fs.writeFileSync('output.jpg', Buffer.from(data, 'base64'));
-});
-
-const stream = fs.createReadStream('xxx.gif');
-stream.on('data', chunk => giframe.feed(chunk));
-```
-
-Or in browsers,
-
-```JavaScript
-import GIFrame from 'giframe';
-
-const giframe = new GIFrame();
-giframe.on(GIFrame.event.DONE, base64 => {
-    const img = document.createElement('img');
-    img.src = base64;
-    document.body.appendChild(img);
-});
-
-// fetch gif by http request
-const stream = fetch('xxx.gif');
-stream.on('data', chunk => giframe.feed(chunk));
-```
-
 ## How it works
 
 For a quick and robust start, the decoder is mostly a folk of [omggif](https://github.com/deanm/omggif). GIF is composed of [many blocks](http://matthewflickinger.com/lab/whatsinagif/bits_and_bytes.asp). Giframe treats every block as a valid unit and resets the position to the previous block's end when meet an incomplete block. It will try to continue to decoding when receiving another chunk (more bytes). It's like stream.
 
 To generate the image's base64, Giframe uses the Canvas API - [node-canvas](https://github.com/Automattic/node-canvas) in NodeJS and [native canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) in browsers. The canvas uses all RGBA pixels which are provided by Giframe to render a image and exports base64 string by `.toDataURL()`.
+
+By the way, the example in `example/browser` uses [service worker](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker), [`fetch` event](https://developer.mozilla.org/en-US/docs/Web/API/FetchEvent), [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and [readable stream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/ReadableStream). It tees a stream from the response in fetch API and read it. Every chunk received will be used to decode progressively. Once the first frame is ready, it will be displayed on screen as a static preview.
 
 ## License
 
