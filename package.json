@@ -1,7 +1,7 @@
 {
   "name": "giframe",
   "version": "0.1.0",
-  "description": "extract the first frame in GIF without reading whole bytes, using stream-like decoder",
+  "description": "extract the first frame in GIF without reading whole bytes in browsers and nodejs, using stream-like decoder",
   "author": "alienzhou <alienzhou16@163.com>",
   "license": "MIT",
   "keywords": [
@@ -48,6 +48,7 @@
     "@types/rollup": "^0.54.0",
     "@types/sharp": "^0.24.0",
     "@types/sinon": "^7.5.1",
+    "better-opn": "^1.0.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.9",
     "file-type": "^13.1.0",
@@ -67,6 +68,7 @@
     "rollup-plugin-typescript2": "^0.25.3",
     "sharp": "^0.24.0",
     "sinon": "^8.1.0",
+    "throttle-stream": "0.0.8",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   }
