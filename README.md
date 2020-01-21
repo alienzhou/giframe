@@ -102,7 +102,7 @@ By the way, the example in `example/browser` uses [Service Worker](https://devel
 
 ## Compatibility
 
-Now GIFrame.js uses [`Proxy` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) to throw an error when accessing an out-of-range item in `Uin8Array` and catch it in the decoder to reset to previous block's position. `Proxy` object [isn't compatible in some browsers](https://caniuse.com/#search=proxy).
+Now GIFrame.js uses [`Proxy` object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) to throw an error when accessing an out-of-range item in `Uin8Array` and catch it in the decoder to reset to the previous valid block's tail position. `Proxy` object [isn't compatible in some browsers](https://caniuse.com/#search=proxy).
 
 However, it's not the only way to implement GIFrame's features. So I'll remove it in some coming version soon. Then it will be [compatible in most browsers (depend on `Uint8Array` supports)](https://caniuse.com/#search=Uint8Array).
 
