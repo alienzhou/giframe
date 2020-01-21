@@ -27,7 +27,8 @@
     "build:browser": "rollup -c rollup.config.ts",
     "build": "run-s build:node build:browser",
     "test": "mocha --check-leaks -r ts-node/register test/**/*.spec.ts",
-    "coverage": "nyc -r lcov -e .ts -x \"test/**/*.ts\" npm run test"
+    "coverage": "nyc -r lcov -e .ts -x \"test/**/*.ts\" npm run test",
+    "prepublishOnly": "run-s coverage build"
   },
   "main": "dist/node/giframe.js",
   "browser": "dist/umd/giframe.js",
