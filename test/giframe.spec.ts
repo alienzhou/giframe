@@ -10,7 +10,7 @@ const LARGE_GIF_PATH = path.resolve(__dirname, 'img', '3.gif');
 
 describe('Giframe', function () {
 
-    this.timeout(10000);
+    this.timeout(50000);
 
     it('should return 0 with no buffer', () => {
         const giframe = new GIFrame();
@@ -62,20 +62,20 @@ describe('Giframe', function () {
         });
 
         it('should generate a correct first-frame image', async () => {
-            const giframe = new GIFrame();
+            const giframe = new GIFrame(0, { usePNG: true });
             giframe.feed(fs.readFileSync(GIF_PATH));
             const base64 = await giframe.getBase64();
             const outputPath = await writeTempImage(base64);
-            const diff = await diffImage(path.resolve(__dirname, 'img', '1-1.jpg'), outputPath, 0.1);
+            const diff = await diffImage(path.resolve(__dirname, 'img', '1-1.png'), outputPath, 0.1);
             expect(diff).to.be.equal(0);
         });
 
         it('should generate a correct second-frame image', async () => {
-            const giframe = new GIFrame(1);
+            const giframe = new GIFrame(1, { usePNG: true });
             giframe.feed(fs.readFileSync(GIF_PATH));
             const base64 = await giframe.getBase64();
             const outputPath = await writeTempImage(base64);
-            const diff = await diffImage(path.resolve(__dirname, 'img', '1-2.jpg'), outputPath, 0.1);
+            const diff = await diffImage(path.resolve(__dirname, 'img', '1-2.png'), outputPath, 0.1);
             expect(diff).to.be.equal(0);
         });
 

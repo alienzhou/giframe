@@ -19,6 +19,13 @@ interface IDeferred<Ret> {
     resolve: (data: Ret) => unknown;
     reject: Function;
 }
+interface IGIFrameOpts {
+    usePNG: boolean;
+}
+
+const DEFAULT_OPTS: IGIFrameOpts = {
+    usePNG: false
+};
 
 class GIFrame extends EventEmitter<EmitData> {
     static event = Stage;
@@ -35,10 +42,17 @@ class GIFrame extends EventEmitter<EmitData> {
     private deferred: IDeferred<string>;
     private pixels: Array<number> = null;
     private isLocked: boolean = false;
+    public opts: IGIFrameOpts;
 
-    constructor(frameIdx: number = 0) {
+    constructor(frameIdx: number = 0, opts?: IGIFrameOpts) {
         super();
         this.frameIdx = frameIdx;
+        if (opts) {
+            this.opts = Object.assign({}, DEFAULT_OPTS, opts);
+        }
+        else {
+            this.opts = Object.create(DEFAULT_OPTS);
+        }
         let resolve: (data: string) => unknown;
         let reject: Function;
         const promise: Promise<string> = new Promise((r, j) => (resolve = r, reject = j));
@@ -139,7 +153,11 @@ class GIFrame extends EventEmitter<EmitData> {
             const decoder = this.decoder;
             // convert to base64
             const { width, height } = decoder.getFrameInfo(this.frameIdx);
-            this.base64 = createBase64(this.pixels, { width, height });
+            const opts: ICreateBase64Opts = { width, height };
+            if (this.opts.usePNG) {
+                opts.usePNG = true;
+            }
+            this.base64 = createBase64(this.pixels, opts);
             this.deferred.resolve(this.base64);
             this.switchStage(Stage.DONE, this.base64);
 
