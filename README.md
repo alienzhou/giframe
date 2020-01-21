@@ -30,7 +30,7 @@ You can also play with it by yourself. [Go to the `Example` section >>](./#Examp
 
 ## Basic Usage
 
-Support both browsers and NodeJS,
+Support both in browsers and NodeJS,
 
 ```JavaScript
 import GIFrame from 'giframe';
