@@ -95,7 +95,7 @@ describe('Giframe', function () {
             const outputPath = await writeTempImage(base64);
             const diff = await diffImage(path.resolve(__dirname, 'img', '3.png'), outputPath);
             expect(diff).to.be.equal(0);
-            expect(giframe.bufferLength).to.be.lessThan(totalLen);
+            expect(giframe.bufferLength, 'must not use all bytes to decode').to.be.lessThan(totalLen);
 
         });
 
