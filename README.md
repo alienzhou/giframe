@@ -2,7 +2,7 @@
 
 Giframe can extract the first frame in GIFs without reading whole bytes in both browsers and NodeJS.
 
-[![](https://api.travis-ci.org/alienzhou/giframe.svg?branch=master)](https://travis-ci.org/alienzhou/giframe) [![NPM version](https://img.shields.io/npm/v/giframe.svg)](https://www.npmjs.com/package/giframe) [![Coverage Status](https://coveralls.io/repos/github/alienzhou/giframe/badge.svg)](https://coveralls.io/github/alienzhou/giframe) [![codebeat badge](https://codebeat.co/badges/f2b1747e-3cd8-46a8-83e4-cda6ba8b3498)](https://codebeat.co/projects/github-com-alienzhou-giframe-master) [![MIT Licence](https://img.shields.io/github/license/alienzhou/giframe)](https://opensource.org/licenses/mit-license.php)
+[![](https://api.travis-ci.org/alienzhou/giframe.svg?branch=master)](https://travis-ci.org/alienzhou/giframe) [![NPM version](https://img.shields.io/npm/v/giframe.svg)](https://www.npmjs.com/package/giframe) [![Coverage Status](https://coveralls.io/repos/github/alienzhou/giframe/badge.svg)](https://coveralls.io/github/alienzhou/giframe) [![gizp size](https://img.badgesize.io/https://unpkg.com/giframe/dist/umd/giframe.js?compression=gzip)](https://unpkg.com/giframe) [![codebeat badge](https://codebeat.co/badges/f2b1747e-3cd8-46a8-83e4-cda6ba8b3498)](https://codebeat.co/projects/github-com-alienzhou-giframe-master) [![MIT Licence](https://img.shields.io/github/license/alienzhou/giframe)](https://opensource.org/licenses/mit-license.php)
 
 It may be used for accelerating GIFs loading experiences and providing a progressive GIF displaying.
 
