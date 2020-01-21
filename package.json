@@ -30,6 +30,8 @@
     "coverage": "nyc -r lcov -e .ts -x \"test/**/*.ts\" npm run test"
   },
   "main": "dist/node/giframe.js",
+  "browser": "dist/umd/giframe.js",
+  "module": "dist/esm/giframe.esm.js",
   "dependencies": {
     "canvas": "^2.6.1"
   },

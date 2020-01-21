@@ -23,7 +23,7 @@ const app: http.Server = http.createServer(function (req, res) {
     const url: string = req.url;
     if (url === '/giframe.js') {
         res.setHeader('Content-Type', 'application/javascript');
-        const script: string = path.resolve(__dirname, '..', '..', 'dist', 'browser', 'giframe.js');
+        const script: string = path.resolve(__dirname, '..', '..', 'dist', 'umd', 'giframe.js');
         fs.createReadStream(script).pipe(res);
     }
     else if (url === '/index.js') {

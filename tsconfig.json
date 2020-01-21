@@ -6,7 +6,7 @@
         "noImplicitAny": false,
         "sourceMap": false,
         "outDir": "dist/node",
-        "target": "ES5",
+        "target": "ES6",
         "esModuleInterop": true,
         "downlevelIteration": true,
         "suppressImplicitAnyIndexErrors": true,

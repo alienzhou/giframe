@@ -8,14 +8,19 @@ import { terser } from "rollup-plugin-terser";
 import pkg from './package.json';
 
 const ROOT_DIR = __dirname;
-const DIST_DIR = path.resolve(ROOT_DIR, 'dist', 'browser');
+const DIST_DIR = path.resolve(ROOT_DIR, 'dist');
 const BANNER = `/** GIFrame.js v${pkg.version}, repo: https://github.com/alienzhou/giframe, MIT licence */`;
 
 export default {
     input: path.resolve(ROOT_DIR, 'src', 'giframe.ts'),
     plugins: [
         typescript({
-            tsconfig: 'tsconfig.browser.json',
+            tsconfig: 'tsconfig.json',
+            tsconfigOverride: {
+                compilerOptions: {
+                    module: 'ES2015'
+                }
+            }
         }),
         resolve({
             mainFields: ['module', 'main'],
@@ -25,7 +30,7 @@ export default {
         strip()
     ],
     output: [{
-        file: path.resolve(DIST_DIR, 'giframe.js'),
+        file: path.resolve(DIST_DIR, 'umd', 'giframe.js'),
         format: 'umd',
         name: 'GIFrame',
         sourcemap: true,
@@ -42,7 +47,7 @@ export default {
             })
         ]
     }, {
-        file: path.resolve(DIST_DIR, 'giframe.esm.js'),
+        file: path.resolve(DIST_DIR, 'esm', 'giframe.esm.js'),
         format: 'esm',
         name: 'GIFrame',
         banner: BANNER,
