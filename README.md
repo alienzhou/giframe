@@ -26,7 +26,7 @@ Below is an browser example. _**The first frame is extracted and used as a place
 
 ![](./doc/img/example.gif)
 
-You can also play with it by yourself. [Go to the `Example` section >>](./#Example)
+You can also play with it by yourself. [Go to the `Example` section >>](#Example)
 
 ## Basic Usage
 
