@@ -14,18 +14,19 @@
     "stream-like",
     "progressive"
   ],
+  "homepage": "https://github.com/alienzhou/giframe#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/alienzhou/giframe"
   },
   "scripts": {
-    "example:node:limit": "ts-node example/nodejs/run-limit $*",
-    "example:node:stream": "ts-node example/nodejs/run-stream $*",
-    "example:browser": "ts-node example/browser/app.ts",
+    "example:node:limit": "npm run build:node && ts-node example/nodejs/run-limit $*",
+    "example:node:stream": "npm run build:node && ts-node example/nodejs/run-stream $*",
+    "example:browser": "npm run build:browser && ts-node example/browser/app.ts",
     "build:node": "tsc",
     "build:browser": "rollup -c rollup.config.ts",
     "build": "run-s build:node build:browser",
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "test": "mocha --check-leaks -r ts-node/register test/**/*.spec.ts",
     "coverage": "nyc -r lcov -e .ts -x \"test/**/*.ts\" npm run test"
   },
   "main": "dist/node/giframe.js",

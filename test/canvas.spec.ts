@@ -21,7 +21,7 @@ describe('Node Canvas', () => {
         }
     });
 
-    describe('the generated jpeg', () => {
+    describe('The generated JPEG', () => {
         let outputPath: string;
         let sourcePath: string;
         let base64: string;
@@ -62,7 +62,7 @@ describe('Node Canvas', () => {
         });
     });
 
-    describe('the generated png', () => {
+    describe('The generated PNG', () => {
         let outputPath: string;
         let sourcePath: string;
         let base64: string;

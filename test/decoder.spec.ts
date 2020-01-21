@@ -14,15 +14,27 @@ describe('Decoder', () => {
         buffer = Buffer.from(BASE64, 'base64');
     });
 
-    it('should init when buffers from true gif', () => {
+    it('should init when buffers from true GIF', () => {
         const init = () => new Decoder(buffer);
         expect(init).not.to.throw();
     });
 
-    it('should throw an error when decoder none gif', () => {
+    it('should throw an error when decoder none GIF', () => {
         const buf = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==', 'base64');
         const init = () => new Decoder(buf);
         expect(init).to.throw('Invalid GIF 87a/89a header.');
+    });
+
+    it('should throw correct error when decode a broken GIF', () => {
+        const buf: Buffer = Buffer.from([
+            0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x02, 0x00, 0x02, 0x00, 0xf0, 0x00, 0x00, 0xff, 0x00, 0x00,
+            0x20, 0xdf, 0x00, 0x21, 0xf9, 0x04, 0x00, 0x32, 0x00, 0x00, 0x00, 0x21, 0xff, 0x0b, 0x4e, 0x45,
+            0x54, 0x53, 0x43, 0x41, 0x50, 0x45, 0x32, 0x2e, 0x30, 0x03, 0x01, 0x00, 0x00, 0x00, 0x2c, 0x00
+        ]);
+        const d: Decoder = new Decoder(buf);
+        d.lastError = null;
+        d.decodeMetaAndFrameInfo(buf.slice(1, buffer.length), 0);
+        expect(d.lastError.message).to.include('Unknown gif block');
     });
 
     it('should decode frames\' information correctly', () => {
