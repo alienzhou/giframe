@@ -129,6 +129,23 @@
             color: #000;
             text-decoration: none;
         }
+        .note .light {
+            font-size: 12px;
+            text-decoration: none;
+            color: #bfbfbf;
+        }
+        .note .light a {
+            text-decoration: none;
+            color: #bfbfbf;
+            text-decoration: underline solid #bfbfbf;
+            cursor: pointer;
+        }
+        .note .light a:hover {
+            color: #0d44dd;
+            text-decoration: underline solid #0d44dd;
+            background: none;
+            animation: none;
+        }
         a {
             color: #547cea;
         }
@@ -160,7 +177,12 @@
 <body>
     <h1><a href="https://github.com/alienzhou/giframe">GIFrame.js</a> Examples</h1>
     <p class="note">
-        <span class="highlight">Note:</span><span>The responses of GIFs have been throttled (~<=%speed%=>KB/s), so you can see the loading process.</span>
+        <span class="highlight">Note:</span><span>The responses of GIFs have been throttled (~<=%speed%=>KB/s), so you can see the loading process.</span><br>
+        <span class="light">It depends on&nbsp;
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker" target="_blank">Service Worker</a>,&nbsp;
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">fetch API</a> and&nbsp;
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/ReadableStream" target="_blank">Readable Stream</a>.
+        </span>
     </p>
     <div id="js-img-container">
         <p class="loading-p" style="display: block; line-height: 143px; font-size: 20px;">loading...</p>

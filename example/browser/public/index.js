@@ -9,7 +9,7 @@
         document.getElementById('js-img').style.display = 'block';
         document.querySelector('.container-overlap').style.display = 'none';
         document.querySelector('#js-img-container>.loading-p').style.display = 'none';
-        document.getElementById('js-img-text').innerHTML = `The first frame generated <b>${+(new Date) - st}ms</b> faster than whole GIF loaded.`;
+        document.getElementById('js-img-text').innerHTML = `The first frame we can see is <b>${+(new Date) - st}ms earlier</b> than the whole GIF.`;
     };
     tmp.src = IMG_SRC;
 
