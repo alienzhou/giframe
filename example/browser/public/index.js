@@ -26,8 +26,7 @@
             const img = document.getElementById('js-img');
             if (data.type === 'gif_pixel') {
                 const { pixels, width, height } = data;
-                const giframe = new GIFrame();
-                const base64 = giframe.createBase64ByPixels(pixels, { width, height });
+                const base64 = GIFrame.createBase64ByPixels(pixels, { width, height });
                 if (!img.src) {
                     document.querySelector('#js-img-container>.loading-p').style.display = 'none';
                     img.style.display = 'block';
