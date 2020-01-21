@@ -20,6 +20,8 @@ class Decoder {
     private frames: Array<IFrameInfo>;
     private lastCorrectPos: number;
 
+    public lastError: Error;
+
     constructor(buf: Uint8Array) {
         this.init(buf);
     }
@@ -215,6 +217,7 @@ class Decoder {
             return true;
         }
         catch (e) {
+            this.lastError = e;
             this.pos = this.lastCorrectPos;
             return false;
         }

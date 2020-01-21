@@ -23,6 +23,10 @@ interface IDeferred<Ret> {
 class GIFrame extends EventEmitter<EmitData> {
     static event = Stage;
 
+    static createBase64ByPixels(pixels: Array<number>, opts: ICreateBase64Opts): string {
+        return createBase64(pixels, opts);
+    }
+
     private stage: Stage = Stage.NONE;
     private decoder: Decoder = null;
     private frameIdx: number = 0;
@@ -57,6 +61,9 @@ class GIFrame extends EventEmitter<EmitData> {
     }
 
     get bufferLength(): number {
+        if (!this.buf) {
+            return 0;
+        }
         return this.buf.length;
     }
 
@@ -79,7 +86,7 @@ class GIFrame extends EventEmitter<EmitData> {
 
     update(buf: Uint8Array): void {
         // the workflow is locked
-        if (this.isLocked) {
+        if (this.isLocked || Stage.ALREADY === this.stage) {
             return;
         }
 
@@ -139,17 +146,13 @@ class GIFrame extends EventEmitter<EmitData> {
             return;
         }
 
-        const err = Error('unknown internal status:' + this.stage);
+        const err = Error('unknown internal status: ' + this.stage);
         this.deferred.reject(err);
         throw err;
     }
 
     getBase64(): Promise<string> {
         return this.deferred.promise;
-    }
-
-    createBase64ByPixels(pixels: Array<number>, opts: ICreateBase64Opts): string {
-        return createBase64(pixels, opts);
     }
 }
 
