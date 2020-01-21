@@ -37,6 +37,6 @@ addPrintFlow(giframe, filename, Promise.resolve(gifBuffer.length));
 giframe.on(GIFrame.event.PIXEL, () => timer && clearInterval(timer));
 
 const timer: NodeJS.Timer = setInterval(() => {
-    giframe.update(gifBufferProxy);
+    giframe.feed(gifBufferProxy.slice(range - 1000, range));
     range += 1000;
 }, 25);

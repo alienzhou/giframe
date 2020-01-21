@@ -98,7 +98,7 @@ class GIFrame extends EventEmitter<EmitData> {
         this.update(buf);
     }
 
-    update(buf: Uint8Array): void {
+    private update(buf: Uint8Array): void {
         // the workflow is locked
         if (this.isLocked || Stage.ALREADY === this.stage) {
             return;
