@@ -79,23 +79,23 @@ describe('Giframe', function () {
             expect(diff).to.be.equal(0);
         });
 
-        it('should work well on a more real GIF when integrated with stream APIs', done => {
+        it('should work well on a more real GIF when integrated with stream APIs', async () => {
             const totalLen: number = fs.readFileSync(LARGE_GIF_PATH).length;
             const stream: fs.ReadStream = fs.createReadStream(LARGE_GIF_PATH, {
                 highWaterMark: 1024 * 20
             });
 
-            const giframe = new GIFrame();
+            const giframe = new GIFrame(0, { usePNG: true });
             giframe.on(GIFrame.event.PIXEL, () => stream.close());
             stream.on('data', chunk => {
                 giframe.feed(chunk);
             });
-            giframe.getBase64()
-                .then(base64 => writeTempImage(base64))
-                .then(outputPath => diffImage(path.resolve(__dirname, 'img', '3.jpeg'), outputPath))
-                .then(diff => expect(diff).to.be.equal(0))
-                .then(() => expect(giframe.bufferLength).to.be.lessThan(totalLen))
-                .then(() => done());
+
+            const base64 = await giframe.getBase64();
+            const outputPath = await writeTempImage(base64);
+            const diff = await diffImage(path.resolve(__dirname, 'img', '3.png'), outputPath);
+            expect(diff).to.be.equal(0);
+            expect(giframe.bufferLength).to.be.lessThan(totalLen);
 
         });
 
