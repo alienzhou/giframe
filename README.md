@@ -1,7 +1,7 @@
 <div>
     <h1 align="center"><code>GIFrame</code>&nbsp;&nbsp;📸</h1>
     <p align="center">
-        <strong>GIFrame.js can extract the first frame in GIFs without reading whole bytes in both browsers and NodeJS.</strong>
+        <strong>GIFrame.js can extract the GIF's first frame without reading whole bytes in both browsers and NodeJS environments.</strong>
     </p>
     <p align="center">
         <a href="https://travis-ci.org/alienzhou/giframe" target="_blank">
