@@ -1,14 +1,37 @@
-# giframe
+<div>
+    <h1 align="center"><code>GIFrame</code>&nbsp;&nbsp;📸</h1>
+    <p align="center">
+        <strong>GIFrame.js can extract the first frame in GIFs without reading whole bytes in both browsers and NodeJS.</strong>
+    </p>
+    <p align="center">
+        <a href="https://travis-ci.org/alienzhou/giframe" target="_blank">
+            <img src="https://api.travis-ci.org/alienzhou/giframe.svg?branch=master" alt="Build status" />
+        </a>
+        <a href="https://www.npmjs.com/package/giframe" target="_blank">
+            <img src="https://img.shields.io/npm/v/giframe.svg" alt="NPM version" />
+        </a>
+        <a href="https://coveralls.io/github/alienzhou/giframe" target="_blank">
+            <img src="https://coveralls.io/repos/github/alienzhou/giframe/badge.svg" alt="Coverage Status" />
+        </a>
+        <a href="https://unpkg.com/giframe" target="_blank">
+            <img src="https://img.badgesize.io/https://unpkg.com/giframe/dist/umd/giframe.js?compression=gzip" alt="Gzip size" />
+        </a>
+        <a href="https://codebeat.co/projects/github-com-alienzhou-giframe-master" target="_blank">
+            <img src="https://codebeat.co/badges/f2b1747e-3cd8-46a8-83e4-cda6ba8b3498" alt="Codebeat" />
+        </a>
+        <a href="https://opensource.org/licenses/mit-license.php" target="_blank">
+            <img src="https://img.shields.io/github/license/alienzhou/giframe" alt="MIT Licence" />
+        </a>
+    </p>
+</div>
 
-Giframe can extract the first frame in GIFs without reading whole bytes in both browsers and NodeJS.
+---
 
-[![](https://api.travis-ci.org/alienzhou/giframe.svg?branch=master)](https://travis-ci.org/alienzhou/giframe) [![NPM version](https://img.shields.io/npm/v/giframe.svg)](https://www.npmjs.com/package/giframe) [![Coverage Status](https://coveralls.io/repos/github/alienzhou/giframe/badge.svg)](https://coveralls.io/github/alienzhou/giframe) [![gizp size](https://img.badgesize.io/https://unpkg.com/giframe/dist/umd/giframe.js?compression=gzip)](https://unpkg.com/giframe) [![codebeat badge](https://codebeat.co/badges/f2b1747e-3cd8-46a8-83e4-cda6ba8b3498)](https://codebeat.co/projects/github-com-alienzhou-giframe-master) [![MIT Licence](https://img.shields.io/github/license/alienzhou/giframe)](https://opensource.org/licenses/mit-license.php)
+It's fast (decode on-demand) and compatible (both in browsers and nodejs).
 
-It's fast because it can decode chunk by chunk. No need to wait for and read all bytes, especially when only extracting the first frame.
+No need to wait for and read all bytes and decode chunk by chunk, especially when only extracting the first frame. So it may be used for improving GIFs loading experiences, providing more controllable GIF loading strategies and so on.
 
-It may be used for improving GIFs loading experiences, providing more controllable GIF loading strategies and so on.
-
-![](./doc/img/example.gif)
+<img src="./doc/img/example.gif" alt="exmaple" width="100%" />
 
 ## Motivation
 
