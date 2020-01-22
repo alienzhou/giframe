@@ -8,6 +8,8 @@ It's fast because it can decode chunk by chunk. No need to wait for and read all
 
 It may be used for improving GIFs loading experiences, providing more controllable GIF loading strategies and so on.
 
+![](./doc/img/example.gif)
+
 ## Motivation
 
 Some websites contain a lot of [GIF images](https://en.wikipedia.org/wiki/GIF). Displaying animation images in your homepage, item list and so on may attract users' attention. However, GIF images are much larger than static images (sometimes 20x~30x depends on how many frames).
