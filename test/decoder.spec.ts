@@ -89,7 +89,7 @@ describe('Decoder', () => {
         it('should be correct when all bytes are input', () => {
             const decoder = new Decoder(buffer);
             decoder.decodeMetaAndFrameInfo(buffer, 0);
-    
+
             const pixels = decoder.decodeFrameRGBA(0, buffer.slice(0, 70));
             expect(pixels).to.be.deep.equal([
                 32, 223, 0, 255,
@@ -98,13 +98,13 @@ describe('Decoder', () => {
                 255, 0, 0, 255
             ]);
         });
-    
+
         it('should be correctly when chunks are divided and input many times', () => {
             const decoder = new Decoder(buffer.slice(0, 40));
             decoder.decodeMetaAndFrameInfo(buffer.slice(0, 50), 0);
             decoder.decodeMetaAndFrameInfo(buffer.slice(0, 60), 0);
             decoder.decodeMetaAndFrameInfo(buffer.slice(0, 70), 0);
-    
+
             const pixels = decoder.decodeFrameRGBA(0, buffer.slice(0, 70));
             expect(pixels).to.be.deep.equal([
                 32, 223, 0, 255,
@@ -127,7 +127,7 @@ describe('Decoder', () => {
                 offset += 10;
             }
 
-            let realRGBA: Array<number[]> = new Array(100);
+            const realRGBA: Array<number[]> = new Array(100);
             // the same as ./img/1-1.png
             for (let i = 0; i < 20; i++) {
                 realRGBA[i] = [255, 0, 0, 255];

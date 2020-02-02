@@ -26,9 +26,9 @@ class Decoder {
         this.init(buf);
     }
 
-    private init(buf: Uint8Array) {
+    private init(buf: Uint8Array): void {
         this.pos = 0;
-        let p = this.pos;
+        let p: number = this.pos;
 
         if (
             buf[p++] !== 0x47
@@ -41,13 +41,15 @@ class Decoder {
             throw new Error('Invalid GIF 87a/89a header.');
         }
 
-        let width: number = buf[p++] | buf[p++] << 8;
-        let height: number = buf[p++] | buf[p++] << 8;
-        let pf0: number = buf[p++];
-        let globalPaletteFlag: number = pf0 >> 7;
-        let numGlobalColorsPow2: number = pf0 & 0x7;
-        let numGlobalColors: number = 1 << (numGlobalColorsPow2 + 1);
-        let background = buf[p++];
+        const width: number = buf[p++] | buf[p++] << 8;
+        const height: number = buf[p++] | buf[p++] << 8;
+        const pf0: number = buf[p++];
+        const globalPaletteFlag: number = pf0 >> 7;
+        const numGlobalColorsPow2: number = pf0 & 0x7;
+        const numGlobalColors: number = 1 << (numGlobalColorsPow2 + 1);
+        /* eslint-disable @typescript-eslint/no-unused-vars */
+        const background: number = buf[p++];
+        /* eslint-enable @typescript-eslint/no-unused-vars */
         buf[p++];
 
         this.globalPaletteOffset = null;
@@ -83,12 +85,21 @@ class Decoder {
                     case 0x21:
                         switch (buf[p++]) {
                             case 0xff:
-                                if (buf[p] !== 0x0b ||
-                                    buf[p + 1] == 0x4e && buf[p + 2] == 0x45 && buf[p + 3] == 0x54 &&
-                                    buf[p + 4] == 0x53 && buf[p + 5] == 0x43 && buf[p + 6] == 0x41 &&
-                                    buf[p + 7] == 0x50 && buf[p + 8] == 0x45 && buf[p + 9] == 0x32 &&
-                                    buf[p + 10] == 0x2e && buf[p + 11] == 0x30 &&
-                                    buf[p + 12] == 0x03 && buf[p + 13] == 0x01 && buf[p + 16] == 0
+                                if (buf[p] !== 0x0b
+                                    || buf[p + 1] === 0x4e
+                                    && buf[p + 2] === 0x45
+                                    && buf[p + 3] === 0x54
+                                    && buf[p + 4] === 0x53
+                                    && buf[p + 5] === 0x43
+                                    && buf[p + 6] === 0x41
+                                    && buf[p + 7] === 0x50
+                                    && buf[p + 8] === 0x45
+                                    && buf[p + 9] === 0x32
+                                    && buf[p + 10] === 0x2e
+                                    && buf[p + 11] === 0x30
+                                    && buf[p + 12] === 0x03
+                                    && buf[p + 13] === 0x01
+                                    && buf[p + 16] === 0
                                 ) {
                                     p += 14;
                                     this.loopCount = buf[p++] | buf[p++] << 8;
@@ -96,8 +107,8 @@ class Decoder {
                                 }
                                 else {
                                     p += 12;
-                                    while (true) { 
-                                        let blockSize: number = buf[p++];
+                                    while (true) {
+                                        const blockSize: number = buf[p++];
                                         if (!(blockSize >= 0)) {
                                             throw Error('Invalid block size');
                                         }
@@ -114,7 +125,7 @@ class Decoder {
                                 if (buf[p++] !== 0x4 || buf[p + 4] !== 0) {
                                     throw new Error('Invalid graphics extension block.');
                                 }
-                                let pf1: number = buf[p++];
+                                const pf1: number = buf[p++];
                                 this.delay = buf[p++] | buf[p++] << 8;
                                 this.transparentIndex = buf[p++];
                                 if ((pf1 & 1) === 0) {
@@ -128,7 +139,7 @@ class Decoder {
                             case 0x01:
                             case 0xfe:
                                 while (true) {
-                                    let blockSize: number = buf[p++];
+                                    const blockSize: number = buf[p++];
                                     if (!(blockSize >= 0)) {
                                         throw Error('Invalid block size');
                                     }
@@ -147,15 +158,15 @@ class Decoder {
                         break;
 
                     case 0x2c:
-                        let x: number = buf[p++] | buf[p++] << 8;
-                        let y: number = buf[p++] | buf[p++] << 8;
-                        let w: number = buf[p++] | buf[p++] << 8;
-                        let h: number = buf[p++] | buf[p++] << 8;
-                        let pf2: number = buf[p++];
-                        let localPaletteFlag: number = pf2 >> 7;
-                        let interlaceFlag: number = pf2 >> 6 & 1;
-                        let numLocalColorsPow2: number = pf2 & 0x7;
-                        let numLocalColors: number = 1 << (numLocalColorsPow2 + 1);
+                        const x: number = buf[p++] | buf[p++] << 8;
+                        const y: number = buf[p++] | buf[p++] << 8;
+                        const w: number = buf[p++] | buf[p++] << 8;
+                        const h: number = buf[p++] | buf[p++] << 8;
+                        const pf2: number = buf[p++];
+                        const localPaletteFlag: number = pf2 >> 7;
+                        const interlaceFlag: number = pf2 >> 6 & 1;
+                        const numLocalColorsPow2: number = pf2 & 0x7;
+                        const numLocalColors: number = 1 << (numLocalColorsPow2 + 1);
                         let paletteOffset: number = this.globalPaletteOffset;
                         let paletteSize: number = this.globalPaletteSize;
                         let hasLocalPalette: boolean = false;
@@ -166,11 +177,11 @@ class Decoder {
                             p += numLocalColors * 3;
                         }
 
-                        let dataOffset: number = p;
+                        const dataOffset: number = p;
 
                         p++;
                         while (true) {
-                            let blockSize = buf[p++];
+                            const blockSize: number = buf[p++];
                             if (!(blockSize >= 0)) {
                                 throw Error('Invalid block size');
                             }
@@ -239,40 +250,40 @@ class Decoder {
         const pixels: Array<number> = [];
         try {
 
-            let frame: IFrameInfo = this.getFrameInfo(idx);
-            let numPixels = frame.width * frame.height;
-            let unpackInfo = unpackLZW(buf, frame.dataOffset, numPixels);
+            const frame: IFrameInfo = this.getFrameInfo(idx);
+            const numPixels = frame.width * frame.height;
+            const unpackInfo = unpackLZW(buf, frame.dataOffset, numPixels);
             if (!unpackInfo.ok) {
                 throw Error(unpackInfo.msg)
             }
-            let indexStream = unpackInfo.output;
+            const indexStream: Uint8Array = unpackInfo.output;
 
-            let paletteOffset: number = frame.paletteOffset;
+            const paletteOffset: number = frame.paletteOffset;
             let trans: number = frame.transparentIndex;
             if (trans === null) {
                 trans = 256;
             }
-    
-            let width: number = this.width;
-            let frameWidth: number = frame.width;
-            let frameStride: number = width - frameWidth;
+
+            const width: number = this.width;
+            const frameWidth: number = frame.width;
+            const frameStride: number = width - frameWidth;
             let xLeft: number = frameWidth;
-    
-            let opBegin: number = ((frame.y * width) + frame.x) * 4;
-            let opEnd: number = ((frame.y + frame.height) * width + frame.x) * 4;
+
+            const opBegin: number = ((frame.y * width) + frame.x) * 4;
+            const opEnd: number = ((frame.y + frame.height) * width + frame.x) * 4;
             let op: number = opBegin;
-    
+
             let scanStride: number = frameStride * 4;
-    
+
             if (frame.interlaced === true) {
                 scanStride += width * 4 * 7;
             }
-    
-            let interlaceSkip = 8;
-    
+
+            let interlaceSkip: number = 8;
+
             for (let i = 0, il = indexStream.length; i < il; ++i) {
-                let index = indexStream[i];
-    
+                const index: number = indexStream[i];
+
                 if (xLeft === 0) {
                     op += scanStride;
                     xLeft = frameWidth;
@@ -282,13 +293,14 @@ class Decoder {
                         interlaceSkip >>= 1;
                     }
                 }
-    
+
                 if (index === trans) {
                     op += 4;
-                } else {
-                    let r = buf[paletteOffset + index * 3];
-                    let g = buf[paletteOffset + index * 3 + 1];
-                    let b = buf[paletteOffset + index * 3 + 2];
+                }
+                else {
+                    const r: number = buf[paletteOffset + index * 3];
+                    const g: number = buf[paletteOffset + index * 3 + 1];
+                    const b: number = buf[paletteOffset + index * 3 + 2];
                     pixels[op++] = r;
                     pixels[op++] = g;
                     pixels[op++] = b;
@@ -300,7 +312,7 @@ class Decoder {
         }
         catch (e) {
             return null;
-        } 
+        }
     };
 }
 

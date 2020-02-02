@@ -11,7 +11,7 @@ function getCanvas(width: number = 0, height: number = 0): Canvas {
     return createCanvas(width, height);
 }
 
-function createBase64(pixels: Array<number>, opts: ICreateBase64Opts) {
+function createBase64(pixels: Array<number>, opts: ICreateBase64Opts): string {
     const {
         width,
         height,

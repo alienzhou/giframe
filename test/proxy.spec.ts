@@ -29,7 +29,7 @@ describe('Proxy', () => {
 
     it('should throw error when numerical key is out of range', function () {
         const arr: Uint8Array = Buffer.from([0, 1, 2]);
-        let proxy = createArrayProxy(arr);
+        const proxy = createArrayProxy(arr);
         const access = () => proxy[3];
 
         expect(access).to.throw(RangeError);
@@ -38,7 +38,7 @@ describe('Proxy', () => {
 
     it('should throw error when numerical-like string key is out of range', function () {
         const arr: Uint8Array = Buffer.from([0, 1, 2]);
-        let proxy = createArrayProxy(arr);
+        const proxy = createArrayProxy(arr);
         const access = () => proxy['3'];
 
         expect(access).to.throw(RangeError);

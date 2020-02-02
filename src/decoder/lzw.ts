@@ -9,11 +9,11 @@ export interface IOutputLZW {
 export function unpackLZW(buf: Uint8Array, p: number, outputLen: number): IOutputLZW {
     let msg: OutputLZWMsg;
     let ok: boolean = true;
-    let output = new Uint8Array(outputLen);
-    let minCodeSize: number = buf[p++];
+    const output: Uint8Array = new Uint8Array(outputLen);
+    const minCodeSize: number = buf[p++];
 
-    let clearCode: number = 1 << minCodeSize;
-    let eoiCode: number = clearCode + 1;
+    const clearCode: number = 1 << minCodeSize;
+    const eoiCode: number = clearCode + 1;
     let nextCode: number = eoiCode + 1;
 
     let curCodeSize: number = minCodeSize + 1;
@@ -22,7 +22,7 @@ export function unpackLZW(buf: Uint8Array, p: number, outputLen: number): IOutpu
     let cur: number = 0;
     let op: number = 0;
     let subBlockSize: number = buf[p++];
-    let codeTable = new Int32Array(4096);
+    const codeTable: Int32Array = new Int32Array(4096);
     let prevCode: number = null;
 
     while (true) {
@@ -46,7 +46,7 @@ export function unpackLZW(buf: Uint8Array, p: number, outputLen: number): IOutpu
             break;
         }
 
-        let code: number = cur & codeMask;
+        const code: number = cur & codeMask;
         cur >>= curCodeSize;
         curShift -= curCodeSize;
 
@@ -62,7 +62,7 @@ export function unpackLZW(buf: Uint8Array, p: number, outputLen: number): IOutpu
             break;
         }
 
-        let chaseCode: number = code < nextCode ? code : prevCode;
+        const chaseCode: number = code < nextCode ? code : prevCode;
 
         let chaseLen: number = 0;
         let chase: number = chaseCode;
@@ -71,10 +71,10 @@ export function unpackLZW(buf: Uint8Array, p: number, outputLen: number): IOutpu
             ++chaseLen;
         }
 
-        let k: number = chase;
+        const k: number = chase;
 
-        let op_end: number = op + chaseLen + (chaseCode !== code ? 1 : 0);
-        if (op_end > outputLen) {
+        const opEnd: number = op + chaseLen + (chaseCode !== code ? 1 : 0);
+        if (opEnd > outputLen) {
             ok = false;
             msg = OutputLZWMsg.LONGER;
             return { output, ok, msg};
