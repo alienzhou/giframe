@@ -1,6 +1,5 @@
 import { IFrameInfo, ICreateBase64Opts } from './types';
 import Decoder from './decoder';
-import createArrayProxy from './utils/proxy';
 import EventEmitter from './utils/event.emitter';
 import createBase64 from './utils/canvas';
 
@@ -112,8 +111,8 @@ class GIFrame extends EventEmitter<EmitData> {
 
         // record origin buffer
         this.buf = buf;
-        // convert to a proxy
-        buf = createArrayProxy(buf);
+        // // convert to a proxy
+        // buf = createArrayProxy(buf);
 
         // init decoder
         if (Stage.NONE === this.stage) {
