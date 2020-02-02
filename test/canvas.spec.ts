@@ -7,7 +7,7 @@ import createBase64 from '../src/utils/canvas';
 
 
 describe('Node Canvas', () => {
-    let samplePixels: Array<number> = [];
+    const samplePixels: Array<number> = [];
     let sampleWidth: number;
     let sampleHeight: number;
     let imgDir: string;
@@ -38,7 +38,7 @@ describe('Node Canvas', () => {
             const pixels: Array<number> = [...samplePixels];
             const width: number = sampleWidth;
             const height: number = sampleHeight;
-    
+
             const base64: string = createBase64(pixels, { width, height });
             const ret: boolean = /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+/.test(base64);
             expect(ret).to.be.true;
@@ -55,7 +55,7 @@ describe('Node Canvas', () => {
             const { width: targetWidth, height: targetHeight } = await getMeta(outputPath);
             expect(width === targetWidth && height === targetHeight).to.be.true;
         });
-    
+
         it('should generate a same image', async function () {
             const diff: number = await diffImage(sourcePath, outputPath, 0.1);
             expect(diff).to.equal(0);
@@ -79,7 +79,7 @@ describe('Node Canvas', () => {
             const pixels: Array<number> = [...samplePixels];
             const width: number = sampleWidth;
             const height: number = sampleHeight;
-    
+
             const base64: string = createBase64(pixels, { width, height, usePNG: true });
             const ret: boolean = /^data:image\/png;base64,[A-Za-z0-9+\/=]+/.test(base64);
             expect(ret).to.be.true;
@@ -96,7 +96,7 @@ describe('Node Canvas', () => {
             const { width: targetWidth, height: targetHeight } = await getMeta(outputPath);
             expect(width === targetWidth && height === targetHeight).to.be.true;
         });
-    
+
         it('should generate a same image', async function () {
             const diff: number = await diffImage(sourcePath, outputPath);
             expect(diff).to.equal(0);

@@ -1,6 +1,6 @@
-function createArrayProxy(buf: Uint8Array) {
-    let proxy = new Proxy(buf, {
-        get(target: Uint8Array, prop) {
+function createArrayProxy(buf: Uint8Array): Uint8Array {
+    const proxy = new Proxy(buf, {
+        get(target: Uint8Array, prop): unknown {
             if (typeof prop === 'symbol') {
                 return target[prop];
             }

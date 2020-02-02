@@ -157,7 +157,7 @@ describe('Giframe', function () {
 
             check([true, true, true, true, true]);
         });
-    
+
         it('should only trigger \'INIT\', \'META\' event after locked', () => {
             giframe.on(GIFrame.event.META, () => giframe.lock())
             giframe.feed(buf);
