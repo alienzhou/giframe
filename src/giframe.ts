@@ -111,8 +111,6 @@ class GIFrame extends EventEmitter<EmitData> {
 
         // record origin buffer
         this.buf = buf;
-        // // convert to a proxy
-        // buf = createArrayProxy(buf);
 
         // init decoder
         if (Stage.NONE === this.stage) {
