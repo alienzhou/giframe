@@ -114,6 +114,19 @@ describe('Decoder', () => {
             ]);
         });
 
+        it('should not throw an error when bytes are broken', () => {
+            const genBreak = (list: Array<Array<number>> = []): Array<Function> => {
+                return list.map(item => () => {
+                    const buf = buffer = Buffer.from(BASE64, 'base64');
+                    buf[item[0]] = item[1];
+                    const decoder = new Decoder(buf.slice(0, 40));
+                    decoder.decodeMetaAndFrameInfo(buf.slice(0, 50), 0);
+                });
+            };
+            genBreak([[28, 0xfe], [28, 0x01], [28, 0xaa], [40, 0x00]])
+                .forEach(fn => expect(fn).to.not.throw())
+        });
+
         it('should be correctly from a GIF file', async () => {
             let offset = 40;
             const buf = fs.readFileSync(path.resolve(__dirname, 'img', '1.gif'));

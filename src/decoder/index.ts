@@ -2,9 +2,9 @@
  * a GIF decoder, support stream-like decoding
  * folk from omggif
  */
-
 import { IFrameInfo } from '../types';
 import { unpackLZW } from './lzw';
+import get from '../utils/proxy';
 
 class Decoder {
     private pos: number;
@@ -31,26 +31,26 @@ class Decoder {
         let p: number = this.pos;
 
         if (
-            buf[p++] !== 0x47
-            || buf[p++] !== 0x49
-            || buf[p++] !== 0x46
-            || buf[p++] !== 0x38
-            || (buf[p++] + 1 & 0xfd) !== 0x38
-            || buf[p++] !== 0x61
+            get(p++, buf) !== 0x47
+            || get(p++, buf) !== 0x49
+            || get(p++, buf) !== 0x46
+            || get(p++, buf) !== 0x38
+            || (get(p++, buf) + 1 & 0xfd) !== 0x38
+            || get(p++, buf) !== 0x61
         ) {
             throw new Error('Invalid GIF 87a/89a header.');
         }
 
-        const width: number = buf[p++] | buf[p++] << 8;
-        const height: number = buf[p++] | buf[p++] << 8;
-        const pf0: number = buf[p++];
+        const width: number = get(p++, buf) | get(p++, buf) << 8;
+        const height: number = get(p++, buf) | get(p++, buf) << 8;
+        const pf0: number = get(p++, buf);
         const globalPaletteFlag: number = pf0 >> 7;
         const numGlobalColorsPow2: number = pf0 & 0x7;
         const numGlobalColors: number = 1 << (numGlobalColorsPow2 + 1);
         /* eslint-disable @typescript-eslint/no-unused-vars */
-        const background: number = buf[p++];
+        const background: number = get(p++, buf);
         /* eslint-enable @typescript-eslint/no-unused-vars */
-        buf[p++];
+        get(p++, buf);
 
         this.globalPaletteOffset = null;
         this.globalPaletteSize = null;
@@ -81,34 +81,34 @@ class Decoder {
         this.lastCorrectPos = p;
         try {
             while (!this.eof && p < buf.length) {
-                switch (buf[p++]) {
+                switch (get(p++, buf)) {
                     case 0x21:
-                        switch (buf[p++]) {
+                        switch (get(p++, buf)) {
                             case 0xff:
-                                if (buf[p] !== 0x0b
-                                    || buf[p + 1] === 0x4e
-                                    && buf[p + 2] === 0x45
-                                    && buf[p + 3] === 0x54
-                                    && buf[p + 4] === 0x53
-                                    && buf[p + 5] === 0x43
-                                    && buf[p + 6] === 0x41
-                                    && buf[p + 7] === 0x50
-                                    && buf[p + 8] === 0x45
-                                    && buf[p + 9] === 0x32
-                                    && buf[p + 10] === 0x2e
-                                    && buf[p + 11] === 0x30
-                                    && buf[p + 12] === 0x03
-                                    && buf[p + 13] === 0x01
-                                    && buf[p + 16] === 0
+                                if (get(p, buf) !== 0x0b
+                                    || get(p + 1, buf) === 0x4e
+                                    && get(p + 2, buf) === 0x45
+                                    && get(p + 3, buf) === 0x54
+                                    && get(p + 4, buf) === 0x53
+                                    && get(p + 5, buf) === 0x43
+                                    && get(p + 6, buf) === 0x41
+                                    && get(p + 7, buf) === 0x50
+                                    && get(p + 8, buf) === 0x45
+                                    && get(p + 9, buf) === 0x32
+                                    && get(p + 10, buf) === 0x2e
+                                    && get(p + 11, buf) === 0x30
+                                    && get(p + 12, buf) === 0x03
+                                    && get(p + 13, buf) === 0x01
+                                    && get(p + 16, buf) === 0
                                 ) {
                                     p += 14;
-                                    this.loopCount = buf[p++] | buf[p++] << 8;
+                                    this.loopCount = get(p++, buf) | get(p++, buf) << 8;
                                     p++;
                                 }
                                 else {
                                     p += 12;
                                     while (true) {
-                                        const blockSize: number = buf[p++];
+                                        const blockSize: number = get(p++, buf);
                                         if (!(blockSize >= 0)) {
                                             throw Error('Invalid block size');
                                         }
@@ -122,12 +122,12 @@ class Decoder {
                                 break;
 
                             case 0xf9:
-                                if (buf[p++] !== 0x4 || buf[p + 4] !== 0) {
+                                if (get(p++, buf) !== 0x4 || get(p + 4, buf) !== 0) {
                                     throw new Error('Invalid graphics extension block.');
                                 }
-                                const pf1: number = buf[p++];
-                                this.delay = buf[p++] | buf[p++] << 8;
-                                this.transparentIndex = buf[p++];
+                                const pf1: number = get(p++, buf);
+                                this.delay = get(p++, buf) | get(p++, buf) << 8;
+                                this.transparentIndex = get(p++, buf);
                                 if ((pf1 & 1) === 0) {
                                     this.transparentIndex = null;
                                 }
@@ -139,7 +139,7 @@ class Decoder {
                             case 0x01:
                             case 0xfe:
                                 while (true) {
-                                    const blockSize: number = buf[p++];
+                                    const blockSize: number = get(p++, buf);
                                     if (!(blockSize >= 0)) {
                                         throw Error('Invalid block size');
                                     }
@@ -152,17 +152,17 @@ class Decoder {
                                 break;
 
                             default:
-                                throw new Error('Unknown graphic control label: 0x' + buf[p - 1].toString(16));
+                                throw new Error('Unknown graphic control label: 0x' + get(p - 1, buf).toString(16));
                         }
                         this.lastCorrectPos = p;
                         break;
 
                     case 0x2c:
-                        const x: number = buf[p++] | buf[p++] << 8;
-                        const y: number = buf[p++] | buf[p++] << 8;
-                        const w: number = buf[p++] | buf[p++] << 8;
-                        const h: number = buf[p++] | buf[p++] << 8;
-                        const pf2: number = buf[p++];
+                        const x: number = get(p++, buf) | get(p++, buf) << 8;
+                        const y: number = get(p++, buf) | get(p++, buf) << 8;
+                        const w: number = get(p++, buf) | get(p++, buf) << 8;
+                        const h: number = get(p++, buf) | get(p++, buf) << 8;
+                        const pf2: number = get(p++, buf);
                         const localPaletteFlag: number = pf2 >> 7;
                         const interlaceFlag: number = pf2 >> 6 & 1;
                         const numLocalColorsPow2: number = pf2 & 0x7;
@@ -181,7 +181,7 @@ class Decoder {
 
                         p++;
                         while (true) {
-                            const blockSize: number = buf[p++];
+                            const blockSize: number = get(p++, buf);
                             if (!(blockSize >= 0)) {
                                 throw Error('Invalid block size');
                             }
@@ -221,7 +221,7 @@ class Decoder {
                         break;
 
                     default:
-                        throw new Error('Unknown gif block: 0x' + buf[p - 1].toString(16));
+                        throw new Error('Unknown gif block: 0x' + get(p - 1, buf).toString(16));
                 }
             }
             this.pos = p;
@@ -298,9 +298,9 @@ class Decoder {
                     op += 4;
                 }
                 else {
-                    const r: number = buf[paletteOffset + index * 3];
-                    const g: number = buf[paletteOffset + index * 3 + 1];
-                    const b: number = buf[paletteOffset + index * 3 + 2];
+                    const r: number = get(paletteOffset + index * 3, buf);
+                    const g: number = get(paletteOffset + index * 3 + 1, buf);
+                    const b: number = get(paletteOffset + index * 3 + 2, buf);
                     pixels[op++] = r;
                     pixels[op++] = g;
                     pixels[op++] = b;
