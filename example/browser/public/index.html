@@ -13,6 +13,7 @@
         }
         img {
             max-height: 200px;
+            max-width: 100%;
         }
         #js-img-container {
             display: inline-block;
@@ -90,6 +91,7 @@
             color: #666;
         }
         .nav {
+            z-index: 999;
             padding: 10px 15px;
             border-radius: 5px;
             border: 1px dashed #333;
@@ -170,6 +172,34 @@
             }
             to {
                 background-position:-20px 100%;
+            }
+        }
+        @media screen and (max-width: 550px) {
+            .content {
+                display: block;
+            }
+            .nav {
+                box-sizing: border-box;
+                border-radius: 0;
+                border: none;
+                background: #617ece;
+                margin: 0;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 40px;
+                display: flex;
+                justify-content: space-between;
+            }
+            .nav li:first-child {
+                display: none;
+            }
+            .nav li {
+                margin: 0;
+            }
+            .nav li a {
+                font-size: 12px;
+                color: #fff;
             }
         }
     </style>
