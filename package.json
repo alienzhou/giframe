@@ -1,16 +1,16 @@
 {
   "name": "giframe",
-  "version": "0.1.0",
-  "description": "extract the first frame in GIF without reading whole bytes in browsers and nodejs, using stream-like decoder",
+  "version": "0.2.0",
+  "description": "extract the first frame in GIF without reading whole bytes, support both browser and nodejs, using stream-like decoder",
   "author": "alienzhou <alienzhou16@163.com>",
   "license": "MIT",
   "keywords": [
     "gif",
-    "decode",
+    "extract",
     "frame",
+    "decode",
     "gif89a",
     "gif87a",
-    "extract",
     "stream-like",
     "progressive"
   ],
